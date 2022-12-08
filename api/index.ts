@@ -1,8 +1,6 @@
 import {VercelRequest, VercelResponse} from '@vercel/node'
 import {ChatGPTAPI} from 'chatgpt'
 
-require('dotenv').config();
-
 async function sendMessage(message: string) {
     let api = new ChatGPTAPI({sessionToken: process.env.SESSION_TOKEN!});
 
@@ -32,6 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 // for dev
 if (process.env.NODE_ENV === 'development') {
+    require('dotenv').config();
     (async () => {
         const res = await sendMessage(`什么是Java`)
         console.log(res)
