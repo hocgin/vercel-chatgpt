@@ -29,10 +29,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 // for dev
-if (process.env.NODE_ENV === 'development') {
-    require('dotenv').config();
-    (async () => {
-        const res = await sendMessage(`什么是Java`)
-        console.log(res)
-    })();
-}
+// if (process.env.NODE_ENV === 'development') {
+//     require('dotenv').config();
+//     (async () => {
+//         const res = await sendMessage(`什么是Java`)
+//         console.log(res)
+//     })();
+// }

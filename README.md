@@ -7,7 +7,7 @@
 ## Usage
 
 ```bash
-curl https://chatgpt.vercel.app/api?ask=${your_ask}
+curl https://${your_vercel_chatgpt}.vercel.app/api?ask=${your_ask}
 ```
 
 ## Example
@@ -15,7 +15,7 @@ curl https://chatgpt.vercel.app/api?ask=${your_ask}
 ### Input
 
 ```bash
-curl https://chatgpt.vercel.app/api?ask=什么是Java
+curl https://vercel-chatgpt.vercel.app/api?ask=什么是Java
 ```
 
 ### Output
