@@ -1,9 +1,9 @@
 import {VercelRequest, VercelResponse} from '@vercel/node'
+import {ChatGPTAPI} from "chatgpt";
 
 // require('dotenv').config();
 
 async function sendMessage(message: string) {
-    const {ChatGPTAPI} = await import('chatgpt')
     let token = process.env.SESSION_TOKEN;
     if (`${token}`.trim().length <= 1) {
         throw new Error('Env "SESSION_TOKEN" Not Found');
