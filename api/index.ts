@@ -30,7 +30,7 @@ async function sendMessageThrow(ask: string) {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     const ask = req.query.ask as string
-    let response: any = sendMessageThrow(ask);
+    let response: any = await sendMessageThrow(ask);
     res.status(response.status);
     res.json(response)
 }
