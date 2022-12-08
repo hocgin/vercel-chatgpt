@@ -21,7 +21,8 @@
   "homepage": "https://github.com/hocgin/vercel-chatgpt#readme",
   "dependencies": {
     "chatgpt": "^2.0.4",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "node-fetch": "^3.3.0"
   },
   "devDependencies": {
     "@vercel/node": "^2.8.0",
