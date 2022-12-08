@@ -23,6 +23,7 @@ async function sendMessageThrow(ask: string) {
     try {
         response.data = await sendMessage(ask)
     } catch (err: any) {
+        console.warn(err);
         response = {ask, status: 400, success: false, message: `${err?.message}`}
     }
     return response;
