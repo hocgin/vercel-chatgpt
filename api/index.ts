@@ -1,6 +1,8 @@
 import {VercelRequest, VercelResponse} from '@vercel/node'
 import {ChatGPTAPI} from 'chatgpt'
 
+require('dotenv').config();
+
 async function sendMessage(message: string) {
     let api = new ChatGPTAPI({sessionToken: process.env.SESSION_TOKEN!});
 
@@ -11,28 +13,32 @@ async function sendMessage(message: string) {
     return await api.sendMessage(message);
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-    const ask = req.query.ask as string
+async function sendMessageThrow(ask: string) {
     let response: any = {
+        ask,
         message: "ok",
         status: 200,
         success: true,
     };
     try {
         response.data = await sendMessage(ask)
-    } catch (err) {
-        res.status(400)
-        res.json({status: 400, success: false, message: 'Invalid URL'})
-        return
+    } catch (err: any) {
+        response = {ask, status: 400, success: false, message: `${err?.message}`}
     }
+    return response;
+}
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+    const ask = req.query.ask as string
+    let response: any = sendMessageThrow(ask);
+    res.status(response.status);
     res.json(response)
 }
 
 // for dev
-// if (process.env.NODE_ENV === 'development') {
-//     require('dotenv').config();
-//     (async () => {
-//         const res = await sendMessage(`什么是Java`)
-//         console.log(res)
-//     })();
-// }
+if (process.env.NODE_ENV === 'development') {
+    (async () => {
+        const res = await sendMessageThrow(`什么是Java`)
+        console.log(res)
+    })();
+}
