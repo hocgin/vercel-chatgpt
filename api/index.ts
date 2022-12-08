@@ -1,9 +1,9 @@
 import {VercelRequest, VercelResponse} from '@vercel/node'
-import {ChatGPTAPI} from 'chatgpt'
 
 require('dotenv').config();
 
 async function sendMessage(message: string) {
+    const {ChatGPTAPI} = await import('chatgpt')
     let api = new ChatGPTAPI({sessionToken: process.env.SESSION_TOKEN!});
 
     // ensure the API is properly authenticated
