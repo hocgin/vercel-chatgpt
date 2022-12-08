@@ -1,6 +1,6 @@
 import {VercelRequest, VercelResponse} from '@vercel/node'
 
-require('dotenv').config();
+// require('dotenv').config();
 
 async function sendMessage(message: string) {
     const {ChatGPTAPI} = await import('chatgpt')
@@ -23,7 +23,7 @@ async function sendMessageThrow(ask: string) {
     try {
         response.data = await sendMessage(ask)
     } catch (err: any) {
-        console.warn(err);
+        console.warn(err)
         response = {ask, status: 400, success: false, message: `${err?.message}`}
     }
     return response;
