@@ -1,8 +1,8 @@
 # Chatgpt on Vercel
 
-![vercel-chatgpt](https://vercelbadge.vercel.app/api/hocgin/chatgpt)
+![vercel-chatgpt](https://vercelbadge.vercel.app/api/hocgin/vercel-chatgpt)
 
-> Easily chatgpt api as a service.
+> Easily chatgpt api as a service. [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/hocgin/vercel-chatgpt)
 
 ## Usage
 
