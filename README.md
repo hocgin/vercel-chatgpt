@@ -37,6 +37,7 @@ Vercel ENV:
 
 ```env
 SESSION_TOKEN=${your_session_token}
+OPENAI_TOKEN=${your_openai_token}
 ```
 
 ## License

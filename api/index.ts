@@ -34,10 +34,17 @@ async function sendMessageThrow(ask: string) {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-    const ask = req.query.ask as string
-    let response: any = await sendMessageThrow(ask);
-    res.status(response.status);
-    res.json(response)
+    let url = req.url;
+    const ask = req.query.ask as string;
+    if (url?.startsWith('/api/openai')) {
+        let response = await sendMessage(ask);
+        res.status(200);
+        res.json(response);
+    } else {
+        let response: any = await sendMessageThrow(ask);
+        res.status(response.status);
+        res.json(response);
+    }
 }
 
 // for dev
