@@ -16,7 +16,7 @@ async function sendOpenAIMessage(askText: string) {
         top_p: 1.0,
         frequency_penalty: 0.0,
         presence_penalty: 0.0,
-        prompt: `\"\"\"\n${askText}\n\"\"\"`,
+        prompt: `\"\"\"${askText}\"\"\"`,
         stop: ["\"\"\""],
     });
     let data = response.data;
