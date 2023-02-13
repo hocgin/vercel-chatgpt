@@ -1,26 +1,9 @@
-import {Configuration, OpenAIApi} from "openai";
+import {VercelRequest, VercelResponse} from "@vercel/node";
+import {sendMessage as sendOpenAIMessage} from "./link/openai";
 
-
-export async function sendMessage(askText: string) {
-    const configuration = new Configuration({
-        apiKey: process.env.OPENAI_TOKEN,
-    });
-    const openai = new OpenAIApi(configuration);
-
-    const ask = await openai.createCompletion({
-        model: "code-davinci-002",
-        prompt: `\"\"\"${askText}\"\"\"`,
-        temperature: 0,
-        max_tokens: 64,
-        top_p: 1.0,
-        frequency_penalty: 0.0,
-        presence_penalty: 0.0,
-        stop: ["\"\"\""],
-    });
-    return {
-        ask,
-        message: "ok",
-        status: 200,
-        success: true,
-    };
-};
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+    const ask = req.query.ask as string;
+    let response = await sendOpenAIMessage(ask);
+    res.status(response.status);
+    res.json(response);
+}

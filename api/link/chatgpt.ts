@@ -2,7 +2,7 @@ import {ChatGPTAPI} from "chatgpt";
 
 
 async function sendMessage(message: string) {
-    let token = process.env.SESSION_TOKEN;
+    let token = `${process?.env?.SESSION_TOKEN}`;
     if (`${token}`.trim().length <= 1) {
         throw new Error('Env "SESSION_TOKEN" Not Found');
     }
