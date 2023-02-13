@@ -1,4 +1,4 @@
-const {Configuration, OpenAIApi} = require("openai");
+import {Configuration, OpenAIApi} from "openai";
 
 
 export let sendMessage = async (askText: string) => {
