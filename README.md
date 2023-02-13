@@ -2,7 +2,8 @@
 
 ![vercel-chatgpt](https://vercelbadge.vercel.app/api/hocgin/vercel-chatgpt)
 
-> Easily chatgpt api as a service. [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/hocgin/vercel-chatgpt)
+> Easily chatgpt/openai api as a
+> service. [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/hocgin/vercel-chatgpt)
 
 ## Usage
 
@@ -15,7 +16,12 @@ curl https://${your_vercel_chatgpt}.vercel.app/api?ask=${your_ask}
 ### Input
 
 ```bash
+# chatgpt
 curl https://vercel-chatgpt.vercel.app/api?ask=什么是Java
+
+# or openai
+curl https://vercel-chatgpt.vercel.app/api/openai?ask=什么是Java
+
 ```
 
 ### Output
@@ -37,6 +43,8 @@ Vercel ENV:
 
 ```env
 SESSION_TOKEN=${your_session_token}
+
+// or openai
 OPENAI_TOKEN=${your_openai_token}
 ```
 
