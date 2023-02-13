@@ -16,7 +16,7 @@ async function sendMessage(message: string) {
     return await api.sendMessage(message);
 }
 
-export async function sendChatGPTMessage(ask: string) {
+async function sendChatGPTMessage(ask: string) {
     let response: any = {
         ask,
         message: "ok",

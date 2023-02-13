@@ -2,7 +2,7 @@ import {VercelRequest, VercelResponse} from "@vercel/node";
 import {Configuration, OpenAIApi} from "openai";
 
 
-export async function sendOpenAIMessage(askText: string) {
+async function sendOpenAIMessage(askText: string) {
     const configuration = new Configuration({
         apiKey: process.env.OPENAI_TOKEN,
     });
