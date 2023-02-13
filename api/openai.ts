@@ -1,7 +1,7 @@
 import {Configuration, OpenAIApi} from "openai";
 
 
-export let sendMessage = async (askText: string) => {
+export async function sendMessage(askText: string) {
     const configuration = new Configuration({
         apiKey: process.env.OPENAI_TOKEN,
     });
