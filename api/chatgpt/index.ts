@@ -24,7 +24,6 @@ async function request(messages, token = process.env.OPENAI_TOKEN, tokenList = [
     });
     let response = await fetch(`https://api.openai.com/v1/chat/completions`, {
         method: 'POST',
-        timeout: -1,
         headers: {
             [`Authorization`]: `Bearer ${token}`,
             [`Content-Type`]: `application/json`
