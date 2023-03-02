@@ -103,7 +103,7 @@ async function request(messages: Message[], token = process.env.OPENAI_TOKEN, to
     // 如果是请求图片
     if (isGetImage) {
         // {"url": ""}
-        let content = result?.data ?? [];
+        let content = (result?.data ?? []).map(({b64_json}) => ({url: `data:image/jpg;${b64_json}`}));
         return {
             success: true,
             message: 'ok',
