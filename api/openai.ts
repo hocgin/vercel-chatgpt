@@ -28,7 +28,7 @@ async function sendOpenAIMessage(askText: string) {
         status: 200,
         success: true,
     };
-};
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     const ask = req.query.ask as string;
