@@ -2,10 +2,13 @@
 
 ![vercel-chatgpt](https://vercelbadge.vercel.app/api/hocgin/vercel-chatgpt)
 
+<img src="http://cdn.hocgin.top/icons/vercel-chatgpt.qrcode.jpg" width="120"/>
+
 > Easily chatgpt/openai api as a
-> service. [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/hocgin/vercel-chatgpt)
 
 ## Usage
+
+service. [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/hocgin/vercel-chatgpt)
 
 ```bash
 curl https://${your_vercel_chatgpt}.vercel.app/api?ask=${your_ask}
