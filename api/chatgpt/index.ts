@@ -30,7 +30,6 @@ async function request(messages, token = process.env.OPENAI_TOKEN, tokenList = [
         },
         body: bodyStr,
     });
-    console.log(`状态码: ${response.status}, 请求信息: ${bodyStr}, \n响应信息: ${result}`);
 
     // 如果超额了
     if ([429, 401].indexOf(response.status) > 0) {
@@ -54,6 +53,7 @@ async function request(messages, token = process.env.OPENAI_TOKEN, tokenList = [
         };
     }
     let result = await response.json();
+    console.log(`状态码: ${response.status}, 请求信息: ${bodyStr}, \n响应信息: ${result}`);
     if (result?.error) {
         return {
             success: false,
