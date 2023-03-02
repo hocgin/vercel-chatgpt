@@ -55,7 +55,7 @@ async function request(messages: Message[], token = process.env.OPENAI_TOKEN, to
     } else {
         bodyStr = JSON.stringify({
             "model": "gpt-3.5-turbo",
-            "messages": messages.filter(e => MessageType.Content !== e?.type).map(({role, content}) => ({
+            "messages": messages.filter(e => MessageType.Image !== e?.type).map(({role, content}) => ({
                 role,
                 content
             })),
