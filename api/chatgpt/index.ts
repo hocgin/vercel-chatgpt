@@ -4,6 +4,7 @@ import {LangKit} from "../../utils/lang.js";
 
 interface Message {
     role: string;
+    chatgpt: string;
     content: string;
     sendAt: number;
     type: 'image' | 'content'
@@ -37,9 +38,12 @@ async function request(messages: Message[], token = process.env.OPENAI_TOKEN, to
     let lastMessage = messages[messages.length - 1];
     let isGetImage = lastMessage.type === MessageType.Image;
     if (isGetImage) {
+        let chatgpt = lastMessage.chatgpt;
+        let prompt = lastMessage.content;
+        prompt = chatgpt ? `${chatgpt},${prompt}` : prompt;
         bodyStr = JSON.stringify({
             "n": 1,
-            "prompt": lastMessage.content,
+            "prompt": prompt,
             "size": '256x256',
             "response_format": "b64_json"
         });
