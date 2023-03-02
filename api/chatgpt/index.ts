@@ -5,7 +5,8 @@ import fetch from 'node-fetch';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     let {messages = []} = req.body ?? {};
     try {
-        let tokenList = `${process.env.OPENAI_TOKENS}`.split(',').filter(e => e.trim().length);
+        let tokenList = `${process.env.OPENAI_TOKENS}`.split(',')
+            .filter(e => e.trim().length).sort(_ => .5 - Math.random());
         return res.send((await request(messages, process.env.OPENAI_TOKEN, tokenList)));
     } catch (e) {
         console.log('错误', e);
