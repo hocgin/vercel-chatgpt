@@ -41,7 +41,7 @@ async function request(messages: Message[], token = process.env.OPENAI_TOKEN, to
             "n": 1,
             "prompt": lastMessage.content,
             "size": '256x256',
-            "response_format": "url"
+            "response_format": "b64_json"
         });
         response = await fetch(`https://api.openai.com/v1/images/generations`, {
             method: 'POST',
