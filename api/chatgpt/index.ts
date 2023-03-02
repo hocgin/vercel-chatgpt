@@ -16,5 +16,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }),
     });
     let result = await response.json();
-    return result?.choices?.[0].message
+    return res.send({
+        success: true,
+        message: 'ok',
+        data: [...messages, result?.choices?.[0].message]
+    });
 };
