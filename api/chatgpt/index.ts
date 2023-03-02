@@ -1,13 +1,26 @@
 import {VercelRequest, VercelResponse} from "@vercel/node";
 import fetch from 'node-fetch';
+import {LangKit} from "../../utils/lang.js";
+
+interface Message {
+    role: string;
+    content: string;
+    sendAt: number;
+    type: 'image' | 'content'
+}
+
+enum MessageType {
+    Image = 'image',
+    Content = 'content',
+}
 
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-    let {messages = []} = req.body ?? {};
+    let {messages = [] as Message[]} = req.body ?? {};
     try {
-        let tokenList = `${process.env.OPENAI_TOKENS}`.split(',')
-            .filter(e => e.trim().length).sort(_ => .5 - Math.random());
-        return res.send((await request(messages, process.env.OPENAI_TOKEN, tokenList)));
+        LangKit.assertTrue(messages.length > 0, `系统繁忙`);
+        let token = getRandomToken();
+        return res.send((await request(messages, token.token, token.tokenList)));
     } catch (e) {
         console.log('错误', e);
         return res.send({
@@ -18,19 +31,44 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 };
 
 
-async function request(messages, token = process.env.OPENAI_TOKEN, tokenList = []) {
-    let bodyStr = JSON.stringify({
-        "model": "gpt-3.5-turbo",
-        "messages": messages
-    });
-    let response = await fetch(`https://api.openai.com/v1/chat/completions`, {
-        method: 'POST',
-        headers: {
-            [`Authorization`]: `Bearer ${token}`,
-            [`Content-Type`]: `application/json`
-        },
-        body: bodyStr,
-    });
+async function request(messages: Message[], token = process.env.OPENAI_TOKEN, tokenList = []) {
+    let response, bodyStr;
+    // 判断是请求文本还是请求图片
+    let lastMessage = messages[messages.length - 1];
+    let isGetImage = lastMessage.type === MessageType.Image;
+    if (isGetImage) {
+        bodyStr = JSON.stringify({
+            "n": 1,
+            "prompt": lastMessage.content,
+            "size": '256x256',
+            "response_format": "url"
+        });
+        response = await fetch(`https://api.openai.com/v1/images/generations`, {
+            method: 'POST',
+            headers: {
+                [`Authorization`]: `Bearer ${token}`,
+                [`Content-Type`]: `application/json`
+            },
+            body: bodyStr,
+        });
+
+    } else {
+        bodyStr = JSON.stringify({
+            "model": "gpt-3.5-turbo",
+            "messages": messages.filter(e => MessageType.Content !== e?.type).map(({role, content}) => ({
+                role,
+                content
+            })),
+        });
+        response = await fetch(`https://api.openai.com/v1/chat/completions`, {
+            method: 'POST',
+            headers: {
+                [`Authorization`]: `Bearer ${token}`,
+                [`Content-Type`]: `application/json`
+            },
+            body: bodyStr,
+        });
+    }
 
     // 如果超额了
     if ([429, 401].indexOf(response.status) > 0) {
@@ -61,9 +99,37 @@ async function request(messages, token = process.env.OPENAI_TOKEN, tokenList = [
             message: `${result.error?.message}`
         };
     }
+
+    // 如果是请求图片
+    if (isGetImage) {
+        // {"url": ""}
+        let content = result?.data ?? [];
+        return {
+            success: true,
+            message: 'ok',
+            data: [...messages, {
+                content,
+                role: `assistant`,
+                type: MessageType.Image,
+                sendAt: Date.now()
+            } as Message]
+        };
+    }
+
+
     return {
         success: true,
         message: 'ok',
-        data: [...messages, result?.choices?.[0].message]
+        data: [...messages, {
+            ...result?.choices?.[0].message,
+            type: MessageType.Content,
+            sendAt: Date.now()
+        } as Message]
     };
+}
+
+function getRandomToken() {
+    let tokenList = `${process.env.OPENAI_TOKENS}`.split(',')
+        .filter(e => e.trim().length).sort(_ => .5 - Math.random());
+    return {token: tokenList[0], tokenList: tokenList.splice(1)}
 }
