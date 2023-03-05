@@ -5,10 +5,6 @@
   "scripts": {
     "dev": "esno api/index.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/one-tab-group/vercel-metafy.git"
-  },
   "keywords": [
     "chatgpt",
     "vercel-function"

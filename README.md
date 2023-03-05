@@ -25,6 +25,9 @@ curl https://vercel-chatgpt.vercel.app/api?ask=什么是Java
 # or openai
 curl https://vercel-chatgpt.vercel.app/api/openai?ask=什么是Java
 
+# or chatgpt3.5-turbo
+curl https://vercel-chatgpt.vercel.app/api/chatgpt?ask=什么是Java
+
 ```
 
 ### Output

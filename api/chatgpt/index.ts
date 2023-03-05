@@ -4,10 +4,10 @@ import {LangKit} from "../../utils/lang.js";
 
 interface Message {
     role: string;
-    chatgpt: string;
+    chatgpt?: string;
     content: string;
     sendAt: number;
-    type: 'image' | 'content'
+    type?: 'image' | 'content'
 }
 
 enum MessageType {
@@ -17,10 +17,15 @@ enum MessageType {
 
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+    let ask = req?.query?.ask;
     let {messages = [] as Message[]} = req.body ?? {};
+    if (ask) {
+        messages = [{role: 'user', content: ask, sendAt: Date.now()}] as Message[];
+    }
     try {
         LangKit.assertTrue(messages.length > 0, `系统繁忙`);
         let token = getRandomToken();
+        // console.log('请求信息', messages, token);
         return res.send((await request(messages, token.token, token.tokenList)));
     } catch (e) {
         console.log('错误', e);
@@ -133,7 +138,8 @@ async function request(messages: Message[], token = process.env.OPENAI_TOKEN, to
 }
 
 function getRandomToken() {
-    let tokenList = `${process.env.OPENAI_TOKENS}`.split(',')
-        .filter(e => e.trim().length).sort(_ => .5 - Math.random());
+    let tokenList = `${process.env.OPENAI_TOKENS ?? ''}`.split(',');
+    tokenList.push(process.env.OPENAI_TOKEN);
+    tokenList = tokenList.filter(e => e.trim().length).sort(_ => .5 - Math.random());
     return {token: tokenList[0], tokenList: tokenList.splice(1)}
 }
